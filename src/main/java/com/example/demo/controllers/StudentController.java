@@ -15,6 +15,7 @@ import java.util.concurrent.ThreadLocalRandom;
 @RequestMapping("/api/")
 public class StudentController {
 
+    //Use the ThreadLocalRandom class to generate random numbers
     private final ThreadLocalRandom random = ThreadLocalRandom.current();
     @Autowired
     private StudentRepository studentRepository;
@@ -23,26 +24,24 @@ public class StudentController {
     @PostMapping("/save")
     public ResponseEntity<String> save(@RequestBody Student student) {
         try {
-            // 生成ID
-            int generatedId = generateId(); // 自定义方法，用于生成唯一ID
-
-            // 设置生成的ID
+            //Generate ID
+            int generatedId = generateId();
+            //Set the generated ID
             student.setId(generatedId);
-
-            // 保存Student
+            // Save student
             studentRepository.save(student);
 
-            // 返回生成的ID给用户
+            // Returns the generated ID to the user
             return ResponseEntity.ok("Student saved. Generated ID: " + generatedId);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("information incomplete");
         }
     }
 
-    // 生成唯一ID的方法
+    // A method to generate a unique ID
     private int generateId() {
 
-        return random.nextInt(10000); // 生成一个随机数作为ID，实际应用中需要保证唯一性
+        return random.nextInt(10000);
     }
 
 
@@ -61,12 +60,12 @@ public class StudentController {
             return ResponseEntity.ok(student);
         } else {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(new Student()); // 返回500错误和空的Student对象
+                    .body(new Student()); // Returns an empty Student object
         }
     }
 
-    //student 是用户输入的对象
-    //currentStudent 是数据库中的对象
+    //student is the object entered by the user
+    //currentStudent is the object in the database
     @PutMapping("/updateById/{id}")
     public ResponseEntity<String> updateStudent(@PathVariable int id, @RequestBody Student student) {
         Student currentStudent = studentRepository.findById(id)
