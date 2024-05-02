@@ -34,7 +34,7 @@ public class StudentController {
             // Returns the generated ID to the user
             return ResponseEntity.ok("Student saved. Generated ID: " + generatedId);
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("information incomplete");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("information incomplete or duplicate email");
         }
     }
 
